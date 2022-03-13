@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}Пост {{ detail_obj.text|truncatewords:30 }}{% endblock %}
+{% block content %}
+{% load user_filters %}
+<div class="row">
+    <aside class="col-12 col-md-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          Дата публикации: {{detail_obj.pub_date|date:"d E Y"}}
+        </li>
+          {% if detail_obj.group %}
+          <li class="list-group-item">
+            Группа: {{ detail_obj.group }} <br>
+            <a href="{% url 'posts:group_list' detail_obj.group.slug %}">
+              все записи группы
+            </a>
+          </li>
+          {% endif %}
+          <li class="list-group-item">
+            Автор: {{ detail_obj.author.get_full_name }}
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+          Всего постов автора:  <span >{{ post_count }}</span>
+        </li>
+        <li class="list-group-item">
+          <a href="{% url 'posts:profile' detail_obj.author %}">
+            все посты пользователя
+          </a>
+        </li>
+      </ul>
+    </aside>
+    <article class="col-12 col-md-9">
+      {% thumbnail detail_obj.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img my-2" src="{{ im.url }}">
+      {% endthumbnail %}
+      <p>{{ detail_obj.text }}</p>
+      <a class="btn btn-primary" href="{% url 'posts:post_edit' detail_obj.id %}">
+        редактировать запись
+      </a>
+      {% for comment in comments %}
+        <div class="media mb-4">
+          <div class="media-body">
+            <h5 class="mt-0">
+              <a href="{% url 'posts:profile' comment.author.username %}">
+                {{ comment.author.username }}
+              </a>
+            </h5>
+              <p>
+               {{ comment.text }}
+              </p>
+            </div>
+          </div>
+      {% endfor %}
+      {% if user.is_authenticated %}
+        <div class="card my-4">
+          <h5 class="card-header">Добавить комментарий:</h5>
+          <div class="card-body">
+            <form method="post" action="{% url 'posts:add_comment' detail_obj.id %}">
+              {% csrf_token %}
+              <div class="form-group mb-2">
+                {{ form.text|addclass:"form-control" }}
+              </div>
+              <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+          </div>
+        </div>
+      {% endif %}
+    </article>
+  </div>
+  {% endblock %}

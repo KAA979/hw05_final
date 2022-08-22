@@ -23,23 +23,27 @@ Cоциальная сеть с авторизацией, персональны
 
 ```bash
 git clone https://github.com/KAA979/api_yamdb.git
-
+```
+```bash
 git checkout fd129c87
-
+```
+```bash
 cd api_yamdb
 ```
 Cоздать и активировать виртуальное окружение:
 
 ```bash
 python -m venv venv
-
+```
+```bash
 source venv/bin/activate
 ```
 Установить зависимости из файла requirements.txt:
 
 ```bash
 python -m pip install --upgrade pip
-
+```
+```bash
 pip install -r requirements.txt
 ```
 Выполнить миграции:
@@ -59,7 +63,8 @@ python manage.py createsuperuser
 Сам проект и админ-панель по адресам:
 ```bash
 http://127.0.0.1:8000
-
+```
+```bash
 http://127.0.0.1:8000/admin
 ```
 ---

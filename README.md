@@ -56,7 +56,7 @@ python manage.py runserver
 ```bash
 python manage.py createsuperuser
 ```
-Сам проект и админ-панель по адресам::
+Сам проект и админ-панель по адресам:
 ```bash
 http://127.0.0.1:8000
 
